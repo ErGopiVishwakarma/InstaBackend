@@ -5,6 +5,7 @@ const UserModel = require("../model/userModel");
 const emailValidator = require('deep-email-validator')
 const cookie = require('cookie');
 const authenticate = require("../middleware/authentication");
+const EmailValidator = require('email-deep-validator');
 
 
 
@@ -14,8 +15,9 @@ userRouter.post('/register', async (req, res) => {
 
     try {
         // validating the email which is valid or not 
-        const { valid, reason, validators } = await emailValidator.validate(email);
-        if (valid) {
+        const emailValidator = new EmailValidator();
+        const {wellFormed,validDomain,validMailbox} = await emailValidator.verify('gopi271vi@gmail.com');
+        if (wellFormed && validDomain) {
             console.log('step1')
             // looking in database this user is already exist or not 
 
