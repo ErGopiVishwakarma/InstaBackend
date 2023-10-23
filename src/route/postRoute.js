@@ -26,7 +26,7 @@ postRouter.get('/', async (req, res) => {
             path: 'comments.like comments.commentedBy',
             model: 'user',
             select: 'name username profile _id'
-        })
+        }).sort('-createdAt')
         res.status(200).send(data)
     } catch (error) {
         res.status(400).send({ error })
@@ -116,58 +116,5 @@ postRouter.put('/comment/:id', async (req, res) => {
         res.status(400).send({ error })
     }
 })
-
-// postRouter.put('/comment/reply/:id',async(req,res)=>{
-//     const { id } = req.params
-//     try {
-//         PostModel.findByIdAndUpdate(id).then(ans=>{
-//          {
-//             $push: { comments?.replys: { ...req.body, postedBy: req.user._id } }
-//         }, {
-//             new: true
-//         })
-//         .populate("comments.postedBy").then(result => {
-//             res.status(200).send(result)
-//         }).catch(err => {
-//             res.status(400).send({error:err})
-//         })
-//     } catch (error) {
-//         res.status(400).send({ error })
-//     }
-// })
-
-
-
-
-// detecting and adding the user view of a particular post 
-// postRouter.put('/view/:id', async (req, res) => {
-//     const { id } = req.params
-//     try {
-//         const data = await PostModel.findById(id)
-//         if (data.views.includes(req.user._id)) {
-//             PostModel.findByIdAndUpdate(id, {
-//                 $pull: { views: req.user._id }
-//             }, {
-//                 new: true
-//             }).then(result => {
-//                 res.status(200).send(result)
-//             }).catch(err => {
-//                 res.status(400).send({ error: err })
-//             })
-//         } else {
-//             PostModel.findByIdAndUpdate(id, {
-//                 $push: { views: req.user._id }
-//             }, {
-//                 new: true
-//             }).then(result => {
-//                 res.status(201).send(result)
-//             }).catch(err => {
-//                 res.status(400).send({ error: err })
-//             })
-//         }
-//     } catch (error) {
-//         res.status(400).send({ error })
-//     }
-// })
 
 module.exports = postRouter

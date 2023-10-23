@@ -187,4 +187,22 @@ userRouter.put('/unfollow', authenticate, async (req, res) => {
 })
 
 
+// update user profile 
+userRouter.patch('/updatepic', authenticate, async (req, res) => {
+    try {
+        UserModel.findByIdAndUpdate(req.user?._id, {
+            $set: { profile: req.body.image }
+        }, { new: true }).then(ans => {
+            console.log(ans)
+            res.status(200).send(ans)
+        }).catch(error => {
+            res.status(400).send({ error })
+        })
+    } catch (error) {
+        res.status(400).send({ error })
+    }
+
+})
+
+
 module.exports = userRouter  
